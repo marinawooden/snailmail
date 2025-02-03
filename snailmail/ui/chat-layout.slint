@@ -1,0 +1,139 @@
+// import { RowLayout } from "std-widgets.slint";
+
+import { VerticalBox, ScrollView } from "std-widgets.slint";
+// Define the RecentChats component as a standalone component
+component RecentChats inherits Rectangle {
+  height: 240px;
+  in property <color> borderColor: #C6C4C4;
+  in property <color> alternateListItem: #0000001b;
+  in property <color> textColor: black;
+
+  Rectangle {
+    border-width: 2px;
+    border-color: root.borderColor;
+    border-radius: 2px;
+    height: 100%;
+    clip: true;
+
+    ScrollView {
+      VerticalLayout {
+        padding-top: 20px;
+        property <[string]> listItems: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13"];
+        
+        for index in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : Rectangle {
+          background: mod(index, 2) == 0 ? root.alternateListItem : white;
+          
+          HorizontalLayout {
+            Text { 
+              text: listItems[index]; 
+              color: root.textColor; 
+              height: 25px;
+              padding: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  Text { 
+    text: "Recent Chats";  
+    color: root.textColor; 
+    font-weight: 800; 
+    font-size: 16px; 
+    stroke-width: 3px; 
+    stroke: white; 
+    x: parent.x; 
+    y: -8px; 
+  }
+}
+
+component PopularChats inherits Rectangle {
+  height: 240px;
+  in property <color> borderColor: #C6C4C4;
+  in property <color> alternateListItem: #0000001b;
+  in property <color> textColor: black;
+
+  Rectangle {
+    border-width: 2px;
+    border-color: root.borderColor;
+    border-radius: 2px;
+    height: 100%;
+    clip: true;
+
+    ScrollView {
+      VerticalLayout {
+        padding-top: 20px;
+        property <[string]> listItems: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13"];
+        
+        for index in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : Rectangle {
+          background: mod(index, 2) == 0 ? root.alternateListItem : white;
+          
+          HorizontalLayout {
+            Text { 
+              text: listItems[index]; 
+              color: root.textColor; 
+              height: 25px; 
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  Text { 
+    text: "Popular Chats";  
+    color: root.textColor; 
+    font-weight: 800; 
+    font-size: 16px; 
+    stroke-width: 3px; 
+    stroke: white; 
+    x: parent.x;
+    y: -8px; 
+  }
+}
+
+// Main ChatLayout component
+component ChatLayout inherits Window {
+  // background: white;
+  background: @linear-gradient(180deg, #ffffff 0%, #ECF2FB 100%);
+  preferred-height: 500px;
+  preferred-width: 800px;
+  property <color> textColor: black;
+  property <color> borderColor: #C6C4C4;
+  property <color> alternateListItem: #0000001b;
+
+  HorizontalLayout {
+    spacing: 10px;
+    padding-top: 10px;
+    // First VerticalBox with RecentChats included
+    VerticalBox {
+      spacing: 30px;
+      max-width: 250px;
+      RecentChats {
+        borderColor: root.borderColor;
+        alternateListItem: root.alternateListItem;
+        textColor: root.textColor;
+      }
+      PopularChats {
+        borderColor: root.borderColor;
+        alternateListItem: root.alternateListItem;
+        textColor: root.textColor;
+      }
+    }
+
+    // Second VerticalBox with additional content
+    VerticalBox {
+      width: 50%;
+      max-width: 700px;
+      Text { text: "Row 2"; color: root.textColor; }
+    }
+
+    // Third VerticalBox with more content
+    VerticalBox {
+      Text { text: "Row 3"; color: root.textColor; }
+    }
+  }
+}
+
+export { ChatLayout }

@@ -1,11 +1,16 @@
 // import { RowLayout } from "std-widgets.slint";
 
-import { VerticalBox, ScrollView } from "std-widgets.slint";
+import { VerticalBox, ScrollView, TextEdit } from "std-widgets.slint";
+import "fonts/Frutiger.ttf";
+import "fonts/Frutiger_bold.ttf";
+
 // Define the RecentChats component as a standalone component
 component RecentChats inherits Rectangle {
   height: 240px;
+  background: white;
+  
   in property <color> borderColor: #C6C4C4;
-  in property <color> alternateListItem: #0000001b;
+  in property <color> alternateListItem: #00000008;
   in property <color> textColor: black;
 
   Rectangle {
@@ -18,17 +23,16 @@ component RecentChats inherits Rectangle {
     ScrollView {
       VerticalLayout {
         padding-top: 20px;
-        property <[string]> listItems: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13"];
         
-        for index in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : Rectangle {
+        for index in 12 : Rectangle {
           background: mod(index, 2) == 0 ? root.alternateListItem : white;
           
           HorizontalLayout {
+            padding: 5px;
             Text { 
-              text: listItems[index]; 
+              text: "Item " + (index + 1); 
               color: root.textColor; 
-              height: 25px;
-              padding: 5px;
+              height: 15px;
             }
           }
         }
@@ -44,12 +48,14 @@ component RecentChats inherits Rectangle {
     stroke-width: 3px; 
     stroke: white; 
     x: parent.x; 
-    y: -8px; 
+    y: -5px; 
   }
 }
 
 component PopularChats inherits Rectangle {
   height: 240px;
+  background: white;
+
   in property <color> borderColor: #C6C4C4;
   in property <color> alternateListItem: #0000001b;
   in property <color> textColor: black;
@@ -66,14 +72,15 @@ component PopularChats inherits Rectangle {
         padding-top: 20px;
         property <[string]> listItems: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12", "Item 13"];
         
-        for index in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] : Rectangle {
+        for index in 12 : Rectangle {
           background: mod(index, 2) == 0 ? root.alternateListItem : white;
           
           HorizontalLayout {
-            Text { 
-              text: listItems[index]; 
+            padding: 5px;
+            Text {
+              text: "Item " + (index + 1);
               color: root.textColor; 
-              height: 25px; 
+              height: 15px; 
             }
           }
         }
@@ -89,7 +96,125 @@ component PopularChats inherits Rectangle {
     stroke-width: 3px; 
     stroke: white; 
     x: parent.x;
-    y: -8px; 
+    y: -5px; 
+  }
+}
+
+component MessageBox inherits Rectangle {
+  in property <color> borderColor: #C6C4C4;
+  in property <color> alternateListItem: #0000001b;
+  in property <color> textColor: black;
+
+  max-width: 200px;
+
+  VerticalLayout {
+    spacing: 20px;
+    
+    // Messages box
+    Rectangle {
+      Rectangle {
+        border-width: 2px;
+        border-color: root.borderColor;
+        border-radius: 2px;
+        background: white; // TODO: take from root
+      }
+      // TODO: Messages should be inserted here
+      Rectangle {
+        height: 100%;
+        clip: true;
+
+        ScrollView {
+          VerticalLayout {
+            alignment: end;
+            padding-top: 20px;
+            padding-bottom: 3px;
+            
+            for index in 50 : 
+            Rectangle {
+              padding: 5px;
+              background: mod(index, 2) == 0 ? #c0d9f545 : #ffffff00;
+
+              HorizontalLayout {
+                spacing: 5px;
+                padding: 5px;
+                alignment: start;
+
+                Text {
+                  text: "User " + index + ":";
+                  color: #0468F5;
+                  font-weight: 800;
+                  width: 50px;
+                }
+                Text {
+                  text: "Message #" + index + ".  Very cool message.";
+                  color: #0468F5;
+                  wrap: word-wrap;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      Rectangle {
+        background: @linear-gradient(180deg, white, transparent); // TODO: take from root
+        height: 50px;
+        width: parent.width - 4px;
+        x: 2px;
+        y: 2px;
+      }
+      HorizontalLayout {
+        y: -7px;
+        x: 20px;
+        alignment: start;
+        spacing: 5px;
+
+        Text {
+          text: "Room Name";
+          font-weight: 800;
+          font-size: 20px;
+          color: root.textColor;
+          stroke-width: 4px;
+          stroke: white; // TODO: take from root
+          z: 3;
+        }
+        Text {
+          text: "#00000";
+          font-weight: 400;
+          color: #C6C4C4; // TODO: take from root
+          font-size: 20px;
+          stroke-width: 3px;
+          stroke: white; // TODO: take from root
+          z: 2;
+        }
+      }
+    }
+    // Options box
+    Rectangle {
+      border-width: 2px;
+      border-color: root.borderColor;
+      border-radius: 2px;
+      height: 35px;
+      background: @linear-gradient(180deg, #ffffff 0%, #DFDEDE 100%);
+    }
+    // Message input box
+    Rectangle {
+      border-width: 2px;
+      border-color: root.borderColor;
+      border-radius: 2px;
+      height: 50px;
+      background: white; // TODO: take from root
+      HorizontalLayout {
+        padding: 10px;
+
+        TextInput {
+          font-size: 14px;
+          color: black;
+          text: "Enter some text here";
+          wrap: word-wrap;
+        }
+      }
+    }
   }
 }
 
@@ -97,19 +222,23 @@ component PopularChats inherits Rectangle {
 component ChatLayout inherits Window {
   // background: white;
   background: @linear-gradient(180deg, #ffffff 0%, #ECF2FB 100%);
-  preferred-height: 500px;
+  default-font-family: "Frutiger";
   preferred-width: 800px;
+  // no-frame: true;
+
   property <color> textColor: black;
   property <color> borderColor: #C6C4C4;
   property <color> alternateListItem: #0000001b;
 
   HorizontalLayout {
-    spacing: 10px;
     padding-top: 10px;
+    alignment: center;
+    width: 100%;
     // First VerticalBox with RecentChats included
     VerticalBox {
       spacing: 30px;
-      max-width: 250px;
+      width: 225px;
+
       RecentChats {
         borderColor: root.borderColor;
         alternateListItem: root.alternateListItem;
@@ -126,12 +255,58 @@ component ChatLayout inherits Window {
     VerticalBox {
       width: 50%;
       max-width: 700px;
-      Text { text: "Row 2"; color: root.textColor; }
+      MessageBox {}
     }
 
     // Third VerticalBox with more content
     VerticalBox {
-      Text { text: "Row 3"; color: root.textColor; }
+      spacing: 20px;
+      padding-right: 20px;
+      width: 235px;
+      // Text { text: "Row 3"; color: root.textColor; }
+      // Chat image
+      Rectangle {
+        border-width: 2px;
+        border-color: root.borderColor;
+        height: self.width;
+        max-width: 200px;
+        background: #D9D9D9; // TODO: placeholder- should be an image
+      }
+      // About chat
+      Rectangle {
+        height: 100px;
+        Rectangle {
+          border-width: 2px;
+          border-color: root.borderColor;
+          height: 100%;
+          padding-top: 20px;
+          clip: true;
+          background: #FFF7E7; // TODO: take from root
+  
+          ScrollView {
+            VerticalLayout {
+              alignment: center;
+              padding: 10px;
+              Text {
+                width: 100%;
+                text: "loreldakjfl kasjdlfk jaslkdjf laskjdf lkasjd flkjaldf kjalksjd flaksdjf alksjdf kasldkfj aklsdjf alskdjf alskdjf kl";
+                color: root.textColor;
+                wrap: word-wrap;
+              }
+            }
+          }
+        }
+        Text {
+          text: "About Chat";
+          font-weight: 800;
+          stroke: white; // TODO: take from root
+          stroke-width: 3px;
+          font-size: 16px;
+          x: 12px;
+          y: -4px;
+          color: cornflowerblue; // TODO: take from root
+        }
+      }
     }
   }
 }
